@@ -1,0 +1,30 @@
+{
+  "name": "chittyfinance-1.2",
+  "version": "1.2.0",
+  "description": "ChittyFinance - AI-powered financial management platform powered by ChittyServices",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "deploy:frontend": "npm run build:frontend && wrangler pages deploy frontend/dist",
+    "deploy:backend": "npm run build:backend && wrangler deploy",
+    "deploy": "npm run deploy:backend && npm run deploy:frontend",
+    "start": "npm run start --workspace=backend",
+    "db:push": "npm run db:push --workspace=backend",
+    "db:studio": "npm run db:studio --workspace=backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "wrangler": "^3.98.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

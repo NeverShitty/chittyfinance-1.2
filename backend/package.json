@@ -1,0 +1,38 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "echo 'Build skipped for deployment'",
+    "start": "tsx src/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@clerk/express": "^1.7.1",
+    "@neondatabase/serverless": "^1.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "drizzle-kit": "^0.31.2",
+    "drizzle-orm": "^0.44.2",
+    "express": "^5.1.0",
+    "openai": "^5.7.0",
+    "stripe": "^18.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.4",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

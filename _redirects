@@ -1,0 +1,5 @@
+# Redirect all API calls to backend worker
+/api/* https://chittyfinance-backend.your-subdomain.workers.dev/api/:splat 200
+
+# SPA fallback
+/* /index.html 200

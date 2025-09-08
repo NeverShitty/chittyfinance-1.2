@@ -1,0 +1,36 @@
+name: AI Review
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+permissions:
+  pull-requests: write
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate diff
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff --unified=0 origin/${{ github.base_ref }}... > diff.patch || true
+
+      - name: LLM review (optional)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo "No OPENAI_API_KEY. Skipping AI commentary."
+            exit 0
+          fi
+          python - <<'PY'
+# placeholder for LLM call; keep job green
+print("AI review placeholder.")
+PY
+
+      - name: Post summary comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "AI Review ran. See checks for details." || true

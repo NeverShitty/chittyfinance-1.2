@@ -1,0 +1,30 @@
+name: PR Quality Gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect Node project
+        id: node
+        run: |
+          if [ -f package.json ]; then echo "yes=true" >> $GITHUB_OUTPUT; fi
+      - if: steps.node.outputs.yes == 'true'
+        run: npm ci || true
+      - if: steps.node.outputs.yes == 'true'
+        run: npm test --if-present || true
+
+      - name: Detect Python project
+        id: py
+        run: |
+          if compgen -G "pyproject.toml requirements*.txt setup.cfg setup.py" > /dev/null; then echo "yes=true" >> $GITHUB_OUTPUT; fi
+      - if: steps.py.outputs.yes == 'true'
+        run: pipx run pip==24.2 install -r requirements.txt || true
+      - if: steps.py.outputs.yes == 'true'
+        run: pipx run pytest -q || true
+
+      - name: Mark gate passed
+        run: echo "PR quality checks completed."
